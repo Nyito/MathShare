@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard</title>
+</head>
+<body>
+    <h1>Bem-vindo ao Dashboard</h1>
+    <p>Olá, <%= user.email %>!</p>
+    <a href="/auth/logout">Logout</a>
+
+    <!-- Formulário de Upload de Arquivos -->
+    <h2>Upload de Arquivo</h2>
+    <form action="/files/upload" method="POST" enctype="multipart/form-data">
+        <input type="file" name="file" accept="image/*" required>
+        <button type="submit">Upload</button>
+    </form>
+
+    <h2>Arquivos Enviados</h2>
+    <ul id="file-list">
+        <!-- Lista de arquivos será preenchida aqui -->
+    </ul>
+
+    <script>
+        // Buscar lista de arquivos
+        fetch('/files/files')
+            .then(response => response.json())
+            .then(data => {
+                const fileList = document.getElementById('file-list');
+                data.files.forEach(file => {
+                    const listItem = document.createElement('li');
+                    const link = document.createElement('a');
+                    link.href = file.url;
+                    link.textContent = file.name;
+                    link.target = '_blank'; // Abrir em nova aba
+                    listItem.appendChild(link);
+                    fileList.appendChild(listItem);
+                });
+            })
+            .catch(error => console.error('Erro ao buscar lista de arquivos:', error));
+    </script>
+</body>
+</html>
