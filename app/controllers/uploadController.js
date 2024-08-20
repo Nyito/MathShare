@@ -3,11 +3,15 @@ const path = require('path');
 
 exports.uploadFile = async (req, res) => {
     try {
+        if(!req.user) {
+            return res.status(401).send('Usuário não autenticado');
+        }
+
         const newFile = new File({
             originalName: req.file.originalname, 
-            mimeType: req.file.mimetype,
+            type: req.file.type,
             size: req.file.size,
-            uploader: req.body.uploader,
+            author: req.user._id,
             tags: req.body.tags ? req.body.tags.split(',').map(tag => tag.trim()) : [],
             accessLevel: req.body.accessLevel || 'public'
         });
@@ -29,11 +33,11 @@ exports.listFiles = async (req, res) => {
             files: files.map(file => ({
                 uuid: file.uuid,
                 name: file.originalName,
-                mimeType: file.mimeType,
+                type: file.mimeType,
                 size: file.size,
                 tags: file.tags,
                 uploadDate: file.uploadDate,
-                uploader: file.uploader,
+                author: file.author,
                 downloadCount: file.downloadCount,
                 accessLevel: file.accessLevel,
                 url: `/uploads/${file.uuid}`
