@@ -3,7 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Dashboard</title>
+    <title>MathShare</title>
+    <link href="css/styles.css" rel="stylesheet" />
 </head>
 <body>
     <h1>Bem-vindo ao Dashboard</h1>
@@ -14,7 +15,7 @@
     <h2>Upload de Arquivo</h2>
     <form action="/files/upload" method="POST" enctype="multipart/form-data">
         <input type="file" name="file" required><br>
-        <input type="text" name="uploader" placeholder="Seu Nome" required><br>
+        <input type="text" name="originalName" placeholder="Nome do arquivo" required><br>
         <input type="text" name="tags" placeholder="Tags (separadas por vírgula)"><br>
         <select name="accessLevel">
             <option value="public">Público</option>
