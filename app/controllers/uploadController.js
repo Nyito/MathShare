@@ -11,7 +11,7 @@ exports.uploadFile = async (req, res) => {
             originalName: req.file.originalname, 
             type: req.file.type,
             size: req.file.size,
-            author: req.user.name,
+            author: req.user._id,
             tags: req.body.tags ? req.body.tags.split(',').map(tag => tag.trim()) : [],
             accessLevel: req.body.accessLevel || 'public'
         });
@@ -27,7 +27,7 @@ exports.uploadFile = async (req, res) => {
 
 exports.listFiles = async (req, res) => {
     try {
-        const files = await File.find({}).populate('author', 'name email');
+        const files = await File.find({});
 
         res.status(200).json({
             files: files.map(file => ({
