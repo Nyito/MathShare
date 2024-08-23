@@ -36,9 +36,9 @@ exports.getSignup = (req, res) => {
 };
 
 exports.postSignup = async (req, res) => {
-    const { email, password } = req.body;
+    const { email, name, surname, password, university } = req.body;
     const hashedPassword = await bcrypt.hash(password, 10);
-    const user = new User({ email, password: hashedPassword });
+    const user = new User({ email, name, surname, password: hashedPassword, university });
     await user.save();
     res.redirect('/auth/login');
 };
